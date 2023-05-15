@@ -1,4 +1,4 @@
-const { User } = require("./userModel");
+const User = require("./userModel");
 
 const createUser = async (body) => {
   try {
@@ -6,7 +6,7 @@ const createUser = async (body) => {
 
     if (data == null) return { result: null, hasError: false };
 
-    const final = result.toJSON();
+    const final = data.toJSON();
 
     return {
       hasError: false,

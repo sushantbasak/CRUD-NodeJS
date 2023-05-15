@@ -13,7 +13,7 @@ const createUser = async (req, res) => {
     res.status(201).send({
       status: "Success",
       msg: "User Created Successfully",
-      data,
+      data: data.result,
     });
   } catch (ex) {
     res.status(400).send({
@@ -25,12 +25,12 @@ const createUser = async (req, res) => {
 
 const findUser = async (req, res) => {
   try {
-    const id = Number.parseInt(req.params.id);
+    const id = req.params.id;
 
     const data = await userService.findUser(id);
 
     if (data.status === "ERROR_FOUND") {
-      throw new Error("Unable to find User");
+      throw new Error("Something Wrong Happened");
     }
 
     if (data.status === "NOT_FOUND") {
@@ -40,7 +40,7 @@ const findUser = async (req, res) => {
     res.status(200).send({
       status: "Success",
       msg: "User found",
-      data,
+      data: data.result,
     });
   } catch (ex) {
     res.status(404).send({
@@ -52,16 +52,16 @@ const findUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   try {
-    const id = Number.parseInt(req.params.id);
+    const id = req.params.id;
 
-    const data = await userService.deleteUser(id);
+    const data = await userService.findUser(id);
 
     if (data.status === "ERROR_FOUND") {
       throw new Error("Unable to delete User");
     }
 
     if (data.status === "NOT_FOUND") {
-      throw new Error("Requested User Not found");
+      throw new Error("Requested User Not exist");
     }
 
     res.status(200).send({

@@ -15,6 +15,9 @@ mongoose
   .then(() => console.log("MongoDB connected"))
   .catch((err) => console.log(err));
 
+const jsonParser = express.json();
+app.use(jsonParser);
+
 app.use("/api", api);
 
 app.get("/", (req, res) => {

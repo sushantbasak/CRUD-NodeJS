@@ -10,6 +10,10 @@ const createUser = async (req, res) => {
       throw new Error("Unable to create User");
     }
 
+    if (data.status === "USER_EXISTS") {
+      throw new Error("User Already Registered");
+    }
+
     res.status(201).send({
       status: "Success",
       msg: "User Created Successfully",
@@ -27,7 +31,7 @@ const findUser = async (req, res) => {
   try {
     const id = req.params.id;
 
-    const data = await userService.findUser(id);
+    const data = await userService.findUserById(id);
 
     if (data.status === "ERROR_FOUND") {
       throw new Error("Something Wrong Happened");
@@ -54,7 +58,7 @@ const deleteUser = async (req, res) => {
   try {
     const id = req.params.id;
 
-    const data = await userService.findUser(id);
+    const data = await userService.deleteUserById(id);
 
     if (data.status === "ERROR_FOUND") {
       throw new Error("Unable to delete User");

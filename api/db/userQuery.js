@@ -21,7 +21,7 @@ const createUser = async (body) => {
   }
 };
 
-const findUser = async (id) => {
+const findUserById = async (id) => {
   try {
     const data = await User.findById(id);
 
@@ -36,7 +36,22 @@ const findUser = async (id) => {
   }
 };
 
-const deleteUser = async (id) => {
+const findUser = async (body) => {
+  try {
+    const data = await User.findOne(body);
+
+    if (data == null) return { result: null, hasError: false };
+
+    const final = data.toJSON();
+
+    return { result: final, hasError: false };
+  } catch (ex) {
+    console.log(ex.message);
+    return { result: null, hasError: true };
+  }
+};
+
+const deleteUserById = async (id) => {
   try {
     const data = await User.findByIdAndDelete(id);
 
@@ -53,6 +68,7 @@ const deleteUser = async (id) => {
 
 module.exports = {
   createUser,
+  findUserById,
+  deleteUserById,
   findUser,
-  deleteUser,
 };
